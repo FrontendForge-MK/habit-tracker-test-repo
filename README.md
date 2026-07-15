@@ -21,6 +21,18 @@ Logikę zmiany lokalnego dnia można uruchomić bez przeglądarki:
 node --test tests/date-utils.test.js
 ```
 
+Smoke test w Chromium instaluje wymagane zależności, uruchamia lokalny serwer
+i kończy go automatycznie po teście. Wymaga Node.js 20+ oraz Pythona 3:
+
+```bash
+npm install
+npx playwright install chromium
+npm run test:e2e
+```
+
+Test dodaje nawyk, oznacza go jako wykonany, sprawdza postęp oraz po odświeżeniu
+strony potwierdza zapis w `localStorage`.
+
 ## Ręczna weryfikacja resetu dziennego
 
 1. Dodaj nawyk, zaznacz go jako wykonany i odśwież stronę — postęp powinien pozostać.
