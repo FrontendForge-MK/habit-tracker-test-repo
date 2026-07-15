@@ -9,6 +9,7 @@ const template = document.querySelector("#habit-template");
 const progressLabel = document.querySelector("#progress-label");
 const progressValue = document.querySelector("#progress-value");
 const todayLabel = document.querySelector("#today-label");
+const resetButton = document.querySelector("#reset-button");
 
 let habits = loadHabits();
 
@@ -42,6 +43,8 @@ form.addEventListener("submit", (event) => {
   nameInput.focus();
 });
 
+resetButton.addEventListener("click", resetCompletedHabits);
+
 function loadHabits() {
   try {
     const savedHabits = JSON.parse(localStorage.getItem(storageKey) ?? "[]");
@@ -59,6 +62,13 @@ function toggleHabit(id) {
   habits = habits.map((habit) =>
     habit.id === id ? { ...habit, completed: !habit.completed } : habit,
   );
+
+  saveHabits();
+  render();
+}
+
+function resetCompletedHabits() {
+  habits = habits.map((habit) => ({ ...habit, completed: false }));
 
   saveHabits();
   render();
@@ -82,6 +92,7 @@ function render() {
   const progress = habits.length === 0 ? 0 : (completedCount / habits.length) * 100;
 
   emptyState.hidden = habits.length > 0;
+  resetButton.disabled = completedCount === 0;
   progressLabel.textContent = `${completedCount} z ${habits.length}`;
   progressValue.style.width = `${progress}%`;
 }

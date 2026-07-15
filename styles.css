@@ -111,6 +111,35 @@ input {
   transition: width 180ms ease;
 }
 
+.reset-button {
+  width: 100%;
+  margin-bottom: 1rem;
+  padding: 0.7rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: 0.8rem;
+  color: var(--green);
+  background: transparent;
+  font-size: 0.9rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.reset-button:hover:not(:disabled) {
+  border-color: var(--green);
+  background: rgb(47 118 88 / 8%);
+}
+
+.reset-button:focus-visible {
+  outline: 3px solid rgb(47 118 88 / 22%);
+  outline-offset: 2px;
+}
+
+.reset-button:disabled {
+  color: var(--muted);
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
 .habit-form {
   display: grid;
   grid-template-columns: 1fr auto;
