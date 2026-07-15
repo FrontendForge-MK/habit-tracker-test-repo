@@ -89,10 +89,43 @@ input {
   letter-spacing: -0.03em;
 }
 
+.progress-summary {
+  display: grid;
+  justify-items: end;
+  gap: 0.45rem;
+}
+
 .progress-label {
-  margin: 0 0 0.25rem;
+  margin: 0;
   color: var(--green);
   font-weight: 800;
+}
+
+.reset-button {
+  padding: 0;
+  border: 0;
+  color: var(--accent-dark);
+  background: transparent;
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+}
+
+.reset-button:hover:not(:disabled) {
+  color: var(--ink);
+}
+
+.reset-button:focus-visible {
+  outline: 3px solid rgb(47 118 88 / 22%);
+  outline-offset: 3px;
+}
+
+.reset-button:disabled {
+  color: var(--muted);
+  cursor: not-allowed;
+  opacity: 0.65;
 }
 
 .progress-track {
@@ -269,5 +302,9 @@ input {
 @media (max-width: 420px) {
   .habit-form {
     grid-template-columns: 1fr;
+  }
+
+  .card-heading {
+    align-items: flex-start;
   }
 }

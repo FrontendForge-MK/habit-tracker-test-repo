@@ -9,6 +9,7 @@ const template = document.querySelector("#habit-template");
 const progressLabel = document.querySelector("#progress-label");
 const progressValue = document.querySelector("#progress-value");
 const todayLabel = document.querySelector("#today-label");
+const resetDayButton = document.querySelector("#reset-day");
 
 let habits = loadHabits();
 
@@ -64,6 +65,15 @@ function toggleHabit(id) {
   render();
 }
 
+function resetDay() {
+  habits = habits.map((habit) => ({ ...habit, completed: false }));
+
+  saveHabits();
+  render();
+}
+
+resetDayButton.addEventListener("click", resetDay);
+
 function render() {
   list.replaceChildren();
 
@@ -84,6 +94,7 @@ function render() {
   emptyState.hidden = habits.length > 0;
   progressLabel.textContent = `${completedCount} z ${habits.length}`;
   progressValue.style.width = `${progress}%`;
+  resetDayButton.disabled = completedCount === 0;
 }
 
 render();
