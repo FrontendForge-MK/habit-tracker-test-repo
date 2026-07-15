@@ -1,4 +1,5 @@
 const storageKey = "habit-tracker.habits";
+const lastActivityDayKey = "habit-tracker.last-activity-day";
 
 const form = document.querySelector("#habit-form");
 const nameInput = document.querySelector("#habit-name");
@@ -12,6 +13,16 @@ const todayLabel = document.querySelector("#today-label");
 const resetButton = document.querySelector("#reset-button");
 
 let habits = loadHabits();
+const dailyHabits = habitDateUtils.prepareHabitsForToday(
+  habits,
+  loadLastActivityDay(),
+);
+
+habits = dailyHabits.habits;
+
+if (dailyHabits.needsReset) {
+  saveHabits();
+}
 
 todayLabel.textContent = new Intl.DateTimeFormat("pl-PL", {
   weekday: "long",
@@ -56,6 +67,15 @@ function loadHabits() {
 
 function saveHabits() {
   localStorage.setItem(storageKey, JSON.stringify(habits));
+  localStorage.setItem(lastActivityDayKey, habitDateUtils.getLocalDayKey());
+}
+
+function loadLastActivityDay() {
+  try {
+    return localStorage.getItem(lastActivityDayKey);
+  } catch {
+    return null;
+  }
 }
 
 function toggleHabit(id) {
