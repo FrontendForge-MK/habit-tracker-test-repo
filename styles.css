@@ -192,6 +192,8 @@ input {
 }
 
 .habit-item {
+  display: flex;
+  align-items: center;
   border: 1px solid var(--line);
   border-radius: 0.85rem;
   background: #fff;
@@ -199,10 +201,33 @@ input {
 
 .habit-check {
   display: flex;
+  flex: 1;
   gap: 0.8rem;
   align-items: center;
   padding: 0.9rem 1rem;
   cursor: pointer;
+}
+
+.delete-button {
+  margin-right: 0.85rem;
+  padding: 0.45rem 0.65rem;
+  border: 1px solid #e9b6aa;
+  border-radius: 0.6rem;
+  color: #a63527;
+  background: #fff7f5;
+  font-size: 0.82rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.delete-button:hover {
+  border-color: #a63527;
+  background: #ffeae5;
+}
+
+.delete-button:focus-visible {
+  outline: 3px solid rgb(166 53 39 / 22%);
+  outline-offset: 2px;
 }
 
 .habit-check input {
