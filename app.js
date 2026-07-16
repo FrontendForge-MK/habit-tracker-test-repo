@@ -87,6 +87,13 @@ function toggleHabit(id) {
   render();
 }
 
+function deleteHabit(id) {
+  habits = habits.filter((habit) => habit.id !== id);
+
+  saveHabits();
+  render();
+}
+
 function resetCompletedHabits() {
   habits = habits.map((habit) => ({ ...habit, completed: false }));
 
@@ -105,6 +112,9 @@ function render() {
     checkbox.checked = habit.completed;
     checkbox.setAttribute("aria-label", `Oznacz nawyk „${habit.title}” jako wykonany`);
     checkbox.addEventListener("change", () => toggleHabit(habit.id));
+    const deleteButton = item.querySelector(".delete-button");
+    deleteButton.setAttribute("aria-label", `Usuń nawyk ${habit.title}`);
+    deleteButton.addEventListener("click", () => deleteHabit(habit.id));
     list.append(item);
   });
 
