@@ -4,10 +4,91 @@
   --ink: #183229;
   --muted: #718078;
   --surface: #fffdf8;
+  --surface-strong: #fff;
+  --surface-subtle: #fff7f5;
   --accent: #ef6a45;
   --accent-dark: #d85131;
+  --on-accent: #fff;
   --green: #2f7658;
+  --on-green: #fff;
   --line: #dde5dd;
+  --control-border: #a8b5ad;
+  --danger: #a63527;
+  --danger-line: #e9b6aa;
+  --danger-surface: #fff7f5;
+  --danger-surface-hover: #ffeae5;
+  --body-start: #f7f1e5;
+  --body-end: #e8f0e8;
+  --body-glow: rgb(255 214 174 / 65%);
+  --card-border: rgb(255 255 255 / 75%);
+  --card-surface: rgb(255 253 248 / 88%);
+  --card-shadow: rgb(42 67 55 / 14%);
+  --green-tint: rgb(47 118 88 / 8%);
+  --green-focus: rgb(47 118 88 / 22%);
+  --green-focus-soft: rgb(47 118 88 / 14%);
+  --danger-focus: rgb(166 53 39 / 22%);
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --ink: #eef6f1;
+  --muted: #b7c5bd;
+  --surface: #17201c;
+  --surface-strong: #223029;
+  --surface-subtle: #35211e;
+  --accent: #ff8a68;
+  --accent-dark: #ffad93;
+  --on-accent: #28130d;
+  --green: #7dd3a7;
+  --on-green: #102a1e;
+  --line: #415249;
+  --control-border: #93a69b;
+  --danger: #ffb4a7;
+  --danger-line: #8a5149;
+  --danger-surface: #35211e;
+  --danger-surface-hover: #4a2923;
+  --body-start: #111814;
+  --body-end: #182720;
+  --body-glow: rgb(125 211 167 / 13%);
+  --card-border: rgb(167 198 181 / 20%);
+  --card-surface: rgb(23 32 28 / 90%);
+  --card-shadow: rgb(0 0 0 / 32%);
+  --green-tint: rgb(125 211 167 / 12%);
+  --green-focus: rgb(125 211 167 / 36%);
+  --green-focus-soft: rgb(125 211 167 / 20%);
+  --danger-focus: rgb(255 180 167 / 32%);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    color-scheme: dark;
+    --ink: #eef6f1;
+    --muted: #b7c5bd;
+    --surface: #17201c;
+    --surface-strong: #223029;
+    --surface-subtle: #35211e;
+    --accent: #ff8a68;
+    --accent-dark: #ffad93;
+    --on-accent: #28130d;
+    --green: #7dd3a7;
+    --on-green: #102a1e;
+    --line: #415249;
+    --control-border: #93a69b;
+    --danger: #ffb4a7;
+    --danger-line: #8a5149;
+    --danger-surface: #35211e;
+    --danger-surface-hover: #4a2923;
+    --body-start: #111814;
+    --body-end: #182720;
+    --body-glow: rgb(125 211 167 / 13%);
+    --card-border: rgb(167 198 181 / 20%);
+    --card-surface: rgb(23 32 28 / 90%);
+    --card-shadow: rgb(0 0 0 / 32%);
+    --green-tint: rgb(125 211 167 / 12%);
+    --green-focus: rgb(125 211 167 / 36%);
+    --green-focus-soft: rgb(125 211 167 / 20%);
+    --danger-focus: rgb(255 180 167 / 32%);
+  }
 }
 
 * {
@@ -19,8 +100,8 @@ body {
   margin: 0;
   color: var(--ink);
   background:
-    radial-gradient(circle at 15% 15%, rgb(255 214 174 / 65%), transparent 28rem),
-    linear-gradient(135deg, #f7f1e5, #e8f0e8);
+    radial-gradient(circle at 15% 15%, var(--body-glow), transparent 28rem),
+    linear-gradient(135deg, var(--body-start), var(--body-end));
 }
 
 button,
@@ -39,6 +120,13 @@ input {
   padding: 3rem 0;
 }
 
+.hero-topline {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .eyebrow,
 .date-label {
   margin: 0 0 0.6rem;
@@ -47,6 +135,27 @@ input {
   font-weight: 800;
   letter-spacing: 0.14em;
   text-transform: uppercase;
+}
+
+.theme-toggle {
+  padding: 0.5rem 0.7rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--ink);
+  background: var(--surface-strong);
+  font-size: 0.82rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.theme-toggle:hover {
+  border-color: var(--green);
+  background: var(--green-tint);
+}
+
+.theme-toggle:focus-visible {
+  outline: 3px solid var(--green-focus);
+  outline-offset: 2px;
 }
 
 .hero h1 {
@@ -69,10 +178,10 @@ input {
 
 .tracker-card {
   padding: clamp(1.5rem, 4vw, 2.5rem);
-  border: 1px solid rgb(255 255 255 / 75%);
+  border: 1px solid var(--card-border);
   border-radius: 1.75rem;
-  background: rgb(255 253 248 / 88%);
-  box-shadow: 0 1.5rem 4rem rgb(42 67 55 / 14%);
+  background: var(--card-surface);
+  box-shadow: 0 1.5rem 4rem var(--card-shadow);
   backdrop-filter: blur(1rem);
 }
 
@@ -126,11 +235,11 @@ input {
 
 .reset-button:hover:not(:disabled) {
   border-color: var(--green);
-  background: rgb(47 118 88 / 8%);
+  background: var(--green-tint);
 }
 
 .reset-button:focus-visible {
-  outline: 3px solid rgb(47 118 88 / 22%);
+  outline: 3px solid var(--green-focus);
   outline-offset: 2px;
 }
 
@@ -153,20 +262,20 @@ input {
   border: 1px solid var(--line);
   border-radius: 0.8rem;
   color: var(--ink);
-  background: #fff;
+  background: var(--surface-strong);
   outline: none;
 }
 
 .habit-form input:focus {
   border-color: var(--green);
-  box-shadow: 0 0 0 3px rgb(47 118 88 / 14%);
+  box-shadow: 0 0 0 3px var(--green-focus-soft);
 }
 
 .habit-form button {
   padding: 0.85rem 1.2rem;
   border: 0;
   border-radius: 0.8rem;
-  color: #fff;
+  color: var(--on-accent);
   background: var(--accent);
   font-weight: 800;
   cursor: pointer;
@@ -179,7 +288,7 @@ input {
 .form-error {
   min-height: 1.25rem;
   margin: 0.4rem 0 0;
-  color: #a63527;
+  color: var(--danger);
   font-size: 0.82rem;
 }
 
@@ -196,7 +305,7 @@ input {
   align-items: center;
   border: 1px solid var(--line);
   border-radius: 0.85rem;
-  background: #fff;
+  background: var(--surface-strong);
 }
 
 .habit-check {
@@ -211,22 +320,22 @@ input {
 .delete-button {
   margin-right: 0.85rem;
   padding: 0.45rem 0.65rem;
-  border: 1px solid #e9b6aa;
+  border: 1px solid var(--danger-line);
   border-radius: 0.6rem;
-  color: #a63527;
-  background: #fff7f5;
+  color: var(--danger);
+  background: var(--danger-surface);
   font-size: 0.82rem;
   font-weight: 800;
   cursor: pointer;
 }
 
 .delete-button:hover {
-  border-color: #a63527;
-  background: #ffeae5;
+  border-color: var(--danger);
+  background: var(--danger-surface-hover);
 }
 
 .delete-button:focus-visible {
-  outline: 3px solid rgb(166 53 39 / 22%);
+  outline: 3px solid var(--danger-focus);
   outline-offset: 2px;
 }
 
@@ -241,12 +350,12 @@ input {
   place-items: center;
   width: 1.4rem;
   height: 1.4rem;
-  border: 2px solid #a8b5ad;
+  border: 2px solid var(--control-border);
   border-radius: 50%;
 }
 
 .habit-check input:focus-visible + .checkmark {
-  outline: 3px solid rgb(47 118 88 / 22%);
+  outline: 3px solid var(--green-focus);
   outline-offset: 2px;
 }
 
@@ -260,7 +369,7 @@ input {
   width: 0.35rem;
   height: 0.65rem;
   margin-top: -0.15rem;
-  border: solid white;
+  border: solid var(--on-green);
   border-width: 0 2px 2px 0;
   transform: rotate(45deg);
 }

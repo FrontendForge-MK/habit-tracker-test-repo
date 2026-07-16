@@ -1,6 +1,31 @@
 const { test, expect } = require("@playwright/test");
 
 const storageKey = "habit-tracker.habits";
+const themeStorageKey = "habit-tracker.theme";
+
+test("uses the system color preference until a selected theme is saved", async ({ page }) => {
+  await page.emulateMedia({ colorScheme: "dark" });
+  await page.goto("/");
+  await page.evaluate(() => localStorage.clear());
+  await page.reload();
+
+  await expect(page.locator("html")).not.toHaveAttribute("data-theme");
+  await expect(page.getByRole("button", { name: "Włącz jasny motyw" })).toBeVisible();
+  await expect(page.locator("html")).toHaveCSS("color-scheme", "dark");
+
+  await page.getByRole("button", { name: "Włącz jasny motyw" }).click();
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
+  await expect(page.getByRole("button", { name: "Włącz ciemny motyw" })).toBeVisible();
+  await expect(page.locator("html")).toHaveCSS("color-scheme", "light");
+
+  await page.reload();
+
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
+  await expect(page.getByRole("button", { name: "Włącz ciemny motyw" })).toBeVisible();
+  await expect
+    .poll(() => page.evaluate((key) => localStorage.getItem(key), themeStorageKey))
+    .toBe("light");
+});
 
 test("adds, completes, and restores a habit after reload", async ({ page }) => {
   await page.goto("/");
