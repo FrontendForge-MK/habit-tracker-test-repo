@@ -1,5 +1,6 @@
 const storageKey = "habit-tracker.habits";
 const lastActivityDayKey = "habit-tracker.last-activity-day";
+const themeStorageKey = "habit-tracker.theme";
 
 const form = document.querySelector("#habit-form");
 const nameInput = document.querySelector("#habit-name");
@@ -11,6 +12,57 @@ const progressLabel = document.querySelector("#progress-label");
 const progressValue = document.querySelector("#progress-value");
 const todayLabel = document.querySelector("#today-label");
 const resetButton = document.querySelector("#reset-button");
+const themeToggle = document.querySelector("#theme-toggle");
+
+const prefersDarkTheme = window.matchMedia("(prefers-color-scheme: dark)");
+
+function getSavedTheme() {
+  try {
+    const savedTheme = localStorage.getItem(themeStorageKey);
+    return savedTheme === "light" || savedTheme === "dark" ? savedTheme : null;
+  } catch {
+    return null;
+  }
+}
+
+function getActiveTheme() {
+  return document.documentElement.dataset.theme ??
+    (prefersDarkTheme.matches ? "dark" : "light");
+}
+
+function updateThemeToggle() {
+  const activeTheme = getActiveTheme();
+  const nextTheme = activeTheme === "dark" ? "light" : "dark";
+  const nextThemeName = nextTheme === "dark" ? "ciemny" : "jasny";
+
+  themeToggle.textContent = `${nextThemeName[0].toUpperCase()}${nextThemeName.slice(1)} motyw`;
+  themeToggle.setAttribute("aria-label", `Włącz ${nextThemeName} motyw`);
+  themeToggle.setAttribute("aria-pressed", String(activeTheme === "dark"));
+}
+
+function saveTheme(theme) {
+  document.documentElement.dataset.theme = theme;
+
+  try {
+    localStorage.setItem(themeStorageKey, theme);
+  } catch {
+    // The selected theme remains active for this session.
+  }
+
+  updateThemeToggle();
+}
+
+themeToggle.addEventListener("click", () => {
+  saveTheme(getActiveTheme() === "dark" ? "light" : "dark");
+});
+
+prefersDarkTheme.addEventListener("change", () => {
+  if (!getSavedTheme()) {
+    updateThemeToggle();
+  }
+});
+
+updateThemeToggle();
 
 let habits = loadHabits();
 const dailyHabits = habitDateUtils.prepareHabitsForToday(
