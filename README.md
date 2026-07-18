@@ -48,3 +48,7 @@ strony potwierdza zapis w `localStorage`.
 - responsywny interfejs.
 
 Projekt jest celowo mały. Kolejne funkcje powinny być dodawane jako osobne zadania workflow.
+
+## Wersja
+
+Stopka aplikacji wyświetla numer wersji: `habit-tracker v1.0`.
