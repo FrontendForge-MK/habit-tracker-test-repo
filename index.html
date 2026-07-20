@@ -71,12 +71,42 @@
 
         <p class="form-error" id="form-error" role="alert"></p>
 
+        <div class="habit-filters" role="group" aria-label="Filtruj nawyki">
+          <button
+            class="filter-button"
+            type="button"
+            data-filter="all"
+            aria-pressed="true"
+            aria-controls="habit-list"
+          >
+            Wszystkie
+          </button>
+          <button
+            class="filter-button"
+            type="button"
+            data-filter="active"
+            aria-pressed="false"
+            aria-controls="habit-list"
+          >
+            Do zrobienia
+          </button>
+          <button
+            class="filter-button"
+            type="button"
+            data-filter="completed"
+            aria-pressed="false"
+            aria-controls="habit-list"
+          >
+            Wykonane
+          </button>
+        </div>
+
         <ul class="habit-list" id="habit-list" aria-label="Lista nawyków"></ul>
 
         <div class="empty-state" id="empty-state">
           <span aria-hidden="true">&#10022;</span>
-          <p>Nie masz jeszcze żadnych nawyków.</p>
-          <small>Dodaj pierwszy powyżej.</small>
+          <p id="empty-state-title">Nie masz jeszcze żadnych nawyków.</p>
+          <small id="empty-state-copy">Dodaj pierwszy powyżej.</small>
         </div>
       </section>
     </main>

@@ -13,6 +13,11 @@ const progressValue = document.querySelector("#progress-value");
 const todayLabel = document.querySelector("#today-label");
 const resetButton = document.querySelector("#reset-button");
 const themeToggle = document.querySelector("#theme-toggle");
+const filterButtons = document.querySelectorAll("[data-filter]");
+const emptyStateTitle = document.querySelector("#empty-state-title");
+const emptyStateCopy = document.querySelector("#empty-state-copy");
+
+let activeFilter = "all";
 
 const prefersDarkTheme = window.matchMedia("(prefers-color-scheme: dark)");
 
@@ -108,6 +113,13 @@ form.addEventListener("submit", (event) => {
 
 resetButton.addEventListener("click", resetCompletedHabits);
 
+filterButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    activeFilter = button.dataset.filter;
+    render();
+  });
+});
+
 function loadHabits() {
   try {
     const savedHabits = JSON.parse(localStorage.getItem(storageKey) ?? "[]");
@@ -153,10 +165,28 @@ function resetCompletedHabits() {
   render();
 }
 
+function getFilteredHabits() {
+  if (activeFilter === "active") {
+    return habits.filter((habit) => !habit.completed);
+  }
+
+  if (activeFilter === "completed") {
+    return habits.filter((habit) => habit.completed);
+  }
+
+  return habits;
+}
+
 function render() {
   list.replaceChildren();
 
-  habits.forEach((habit) => {
+  const filteredHabits = getFilteredHabits();
+
+  filterButtons.forEach((button) => {
+    button.setAttribute("aria-pressed", String(button.dataset.filter === activeFilter));
+  });
+
+  filteredHabits.forEach((habit) => {
     const item = template.content.firstElementChild.cloneNode(true);
     const checkbox = item.querySelector("input");
 
@@ -173,7 +203,13 @@ function render() {
   const completedCount = habits.filter((habit) => habit.completed).length;
   const progress = habits.length === 0 ? 0 : (completedCount / habits.length) * 100;
 
-  emptyState.hidden = habits.length > 0;
+  emptyState.hidden = filteredHabits.length > 0;
+  emptyStateTitle.textContent = habits.length === 0
+    ? "Nie masz jeszcze żadnych nawyków."
+    : "Brak nawyków w tym widoku.";
+  emptyStateCopy.textContent = habits.length === 0
+    ? "Dodaj pierwszy powyżej."
+    : "Wybierz inny filtr lub oznacz nawyk jako wykonany.";
   resetButton.disabled = completedCount === 0;
   progressLabel.textContent = `${completedCount} z ${habits.length}`;
   progressValue.style.width = `${progress}%`;

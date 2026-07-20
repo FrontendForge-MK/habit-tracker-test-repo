@@ -56,6 +56,41 @@ test("adds, completes, and restores a habit after reload", async ({ page }) => {
   ]);
 });
 
+test("filters habits and refreshes the current view after completion changes", async ({ page }) => {
+  await page.goto("/");
+  await page.evaluate(() => localStorage.clear());
+  await page.reload();
+
+  const nameInput = page.getByLabel("Nazwa nowego nawyku");
+  await nameInput.fill("Czytanie");
+  await page.getByRole("button", { name: "Dodaj" }).click();
+  await nameInput.fill("Spacer");
+  await page.getByRole("button", { name: "Dodaj" }).click();
+  await page.getByLabel("Oznacz nawyk „Spacer” jako wykonany").check();
+
+  const allFilter = page.getByRole("button", { name: "Wszystkie" });
+  const activeFilter = page.getByRole("button", { name: "Do zrobienia" });
+  const completedFilter = page.getByRole("button", { name: "Wykonane" });
+
+  await expect(allFilter).toHaveAttribute("aria-pressed", "true");
+  await expect(page.locator("#habit-list li")).toHaveCount(2);
+
+  await activeFilter.click();
+  await expect(activeFilter).toHaveAttribute("aria-pressed", "true");
+  await expect(allFilter).toHaveAttribute("aria-pressed", "false");
+  await expect(page.getByText("Czytanie", { exact: true })).toBeVisible();
+  await expect(page.getByText("Spacer", { exact: true })).toHaveCount(0);
+
+  await page.getByLabel("Oznacz nawyk „Czytanie” jako wykonany").check();
+  await expect(page.locator("#habit-list li")).toHaveCount(0);
+
+  await completedFilter.click();
+  await expect(completedFilter).toHaveAttribute("aria-pressed", "true");
+  await expect(page.locator("#habit-list li")).toHaveCount(2);
+  await expect(page.getByText("Czytanie", { exact: true })).toBeVisible();
+  await expect(page.getByText("Spacer", { exact: true })).toBeVisible();
+});
+
 test("deletes a habit and persists the remaining habit after reload", async ({ page }) => {
   await page.goto("/");
   await page.evaluate(() => localStorage.clear());

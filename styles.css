@@ -292,6 +292,39 @@ input {
   font-size: 0.82rem;
 }
 
+.habit-filters {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.8rem;
+}
+
+.filter-button {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--ink);
+  background: var(--surface-strong);
+  font-size: 0.82rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.filter-button:hover {
+  border-color: var(--green);
+  background: var(--green-tint);
+}
+
+.filter-button[aria-pressed="true"] {
+  border-color: var(--green);
+  color: var(--on-green);
+  background: var(--green);
+}
+
+.filter-button:focus-visible {
+  outline: 3px solid var(--green-focus);
+  outline-offset: 2px;
+}
+
 .habit-list {
   display: grid;
   gap: 0.65rem;
