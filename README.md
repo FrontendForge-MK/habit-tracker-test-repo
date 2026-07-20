@@ -1,5 +1,7 @@
 # Habit Tracker
 
+![Smoke test](https://github.com/FrontendForge-MK/habit-tracker-test-repo/actions/workflows/ci.yml/badge.svg?branch=develop)
+
 Mała aplikacja HTML/CSS/JavaScript przygotowana jako poligon do testowania workflow agentów:
 implementacji zadań, pull requestów, CI i testów w przeglądarce.
 
@@ -25,7 +27,7 @@ Smoke test w Chromium instaluje wymagane zależności, uruchamia lokalny serwer
 i kończy go automatycznie po teście. Wymaga Node.js 20+ oraz Pythona 3:
 
 ```bash
-npm install
+npm ci
 npx playwright install chromium
 npm run test:e2e
 ```
