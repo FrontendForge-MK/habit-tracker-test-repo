@@ -81,7 +81,7 @@ test("filters habits and refreshes the current view after completion changes", a
   await expect(page.getByText("Czytanie", { exact: true })).toBeVisible();
   await expect(page.getByText("Spacer", { exact: true })).toHaveCount(0);
 
-  await page.getByLabel("Oznacz nawyk „Czytanie” jako wykonany").check();
+  await page.getByLabel("Oznacz nawyk „Czytanie” jako wykonany").click();
   await expect(page.locator("#habit-list li")).toHaveCount(0);
 
   await completedFilter.click();
